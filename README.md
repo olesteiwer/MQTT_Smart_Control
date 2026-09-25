@@ -61,6 +61,10 @@ Pi3
 
 ## Pi1 - Server
 
+### Hardware
+
+- Raspberry Pi
+  
 ### Aufgaben
 
 - MQTT Broker
