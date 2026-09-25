@@ -611,26 +611,6 @@ Aktuell besitzen sie jedoch noch kein eigenes Diagramm.
 
 ---
 
-# Geplante Erweiterungen
-
-✅ Automatische Diagramme für beliebige Sensoren
-
-✅ Dynamische Sensor-Karten
-
-✅ Mehrere Klima Controller
-
-✅ CSV Export
-
-✅ Benutzerverwaltung
-
-✅ Alarmfunktionen
-
-✅ Sensorgruppen
-
-✅ Mobile Ansicht
-
----
-
 # Projektziel
 
 Ziel des Projekts ist die Entwicklung einer modularen IoT-Plattform zur Überwachung und Steuerung von Geräten über MQTT.
@@ -657,43 +637,7 @@ Durch die automatische Geräteerkennung müssen neue Geräte nicht manuell in di
 
 ---
 
-# Aktueller Entwicklungsstand
-
-✅ MQTT Broker
-
-✅ Flask Dashboard
-
-✅ SQLite Datenbank
-
-✅ Temperaturdiagramme
-
-✅ Klimaautomatik
-
-✅ Geräteverwaltung
-
-✅ Automatische Geräteerkennung
-
-✅ Manuelle Klimasteuerung
-
-✅ Online-/Offline Überwachung
-
-✅ Raspberry Pi MQTT Clients
-
-🔄 Automatische Diagramme für alle Sensortypen
-
-🔄 Mehrere Temperatursensoren
-
-🔄 Mehrere Klima Controller
-
-🔄 CSV Export
-
-🔄 Benutzerverwaltung
-
----
-
 # Fazit
-
-MQTT Smart Control V5 ist bereits zu etwa 90 % Plug & Play.
 
 Neue Raspberry Pis können mit wenigen Zeilen Code und einer MQTT Verbindung automatisch in das Dashboard integriert werden.
 
