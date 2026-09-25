@@ -202,7 +202,7 @@ python client.py
 ## Pi3
 
 ```bash
-python pi3.py
+python client.py
 ```
 
 ---
