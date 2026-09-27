@@ -82,6 +82,13 @@ Pi3
 - Chart.js
 - Paho MQTT
 
+### PIN Belegung
+
+-DHT 11
+  Pin 1 - Pin Mitte
+  Pin 6 - Pin Rechts 
+  Pin 7 - Pin Links 
+  
 ---
 
 ## Pi2 - Temperatursensor
@@ -145,6 +152,12 @@ Klimaautomatik entscheidet
 Pi3 schaltet Klimaanlage
 ```
 
+### PIN Belegung
+
+- LED
+  Pin 6  - GND
+  Pin 11 - VCC
+    
 ---
 
 # Installation
