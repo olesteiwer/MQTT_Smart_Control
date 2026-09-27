@@ -109,9 +109,9 @@ device/pi2/info
 ### PIN Belegung
 
 - DHT 11
- - Pin 1 - Pin Mitte
- - Pin 6 - Pin Rechts 
- - Pin 7 - Pin Links 
+  - Pin 1 - Pin Mitte
+  - Pin 6 - Pin Rechts 
+  - Pin 7 - Pin Links 
   
 ---
 
