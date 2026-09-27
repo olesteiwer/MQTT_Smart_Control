@@ -155,8 +155,8 @@ Pi3 schaltet Klimaanlage
 ### PIN Belegung
 
 - LED
- - Pin 6  - GND
- - Pin 11 - VCC
+  - Pin 6  - GND
+  - Pin 11 - VCC
     
 ---
 
