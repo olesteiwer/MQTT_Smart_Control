@@ -82,13 +82,6 @@ Pi3
 - Chart.js
 - Paho MQTT
 
-### PIN Belegung
-
--DHT 11
-  Pin 1 - Pin Mitte
-  Pin 6 - Pin Rechts 
-  Pin 7 - Pin Links 
-  
 ---
 
 ## Pi2 - Temperatursensor
@@ -113,6 +106,13 @@ device/pi2/status
 device/pi2/info
 ```
 
+### PIN Belegung
+
+- DHT 11
+ - Pin 1 - Pin Mitte
+ - Pin 6 - Pin Rechts 
+ - Pin 7 - Pin Links 
+  
 ---
 
 ## Pi3 - Klima Controller
@@ -155,8 +155,8 @@ Pi3 schaltet Klimaanlage
 ### PIN Belegung
 
 - LED
-  Pin 6  - GND
-  Pin 11 - VCC
+ - Pin 6  - GND
+ - Pin 11 - VCC
     
 ---
 
