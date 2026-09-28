@@ -3,6 +3,7 @@ import paho.mqtt.client as mqtt
 import threading
 import sqlite3
 import json
+import time
 from datetime import datetime
 
 app = Flask(__name__)
@@ -96,12 +97,28 @@ def on_message(client, userdata, msg):
     device = parts[1]
     sensor = parts[2]
 
+    devices.setdefault(
+    device,
+    {
+        "name": device,
+        "status": "offline",
+        "sensors": [],
+        "last_seen": time.time()
+    }
+)
+
+devices[device]["last_seen"] = time.time()
+
+if sensor != "status":
+    devices[device]["status"] = "online"
+    
     if device not in devices:
 
         devices[device] = {
             "name": device,
             "status": "offline",
             "sensors": []
+            "last_seen": time.time()
         }
 
     if sensor == "info":
@@ -231,6 +248,29 @@ def on_message(client, userdata, msg):
             print(e)
 
 # ==========================
+# Offline Überwachung
+# ==========================
+
+def offline_monitor():
+
+    while True:
+
+        now = time.time()
+
+        for device in list(devices.keys()):
+
+            last_seen = devices[device].get(
+                "last_seen",
+                0
+            )
+
+            if now - last_seen > 60:
+
+                devices[device]["status"] = "offline"
+
+        time.sleep(10)
+        
+# ==========================
 # MQTT Thread
 # ==========================
 
@@ -252,6 +292,11 @@ def mqtt_thread():
     )
 
     client.loop_forever()
+
+threading.Thread(
+    target=offline_monitor,
+    daemon=True
+).start()
 
 threading.Thread(
     target=mqtt_thread,
