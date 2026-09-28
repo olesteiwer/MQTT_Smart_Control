@@ -57,12 +57,7 @@ VALUES
 
 db.commit()
 
-# ==========================
-# Geräte
-# ==========================
-
 devices = {}
-
 # ==========================
 # MQTT Publisher
 # ==========================
@@ -94,22 +89,25 @@ def on_message(client, userdata, msg):
     if len(parts) < 3:
         return
 
-  device = parts[1]
-  sensor = parts[2]
+    device = parts[1]
+    sensor = parts[2]
 
-  if device not in devices:
+    if device not in devices:
 
-      devices[device] = {
-        "name": device,
-        "status": "offline",
-        "sensors": [],
-        "last_seen": time.time()
-    }
+        devices[device] = {
+            "name": device,
+            "status": "offline",
+            "sensors": [],
+            "last_seen": time.time()
+        }
 
- devices[device]["last_seen"] = time.time()
+    devices[device]["last_seen"] = time.time()
 
- if sensor != "status":
-     devices[device]["status"] = "online"
+    if sensor != "status":
+        devices[device]["status"] = "online"
+
+    if sensor == "status":
+        devices[device]["status"] = payload
 
     if sensor == "info":
 
@@ -129,7 +127,9 @@ def on_message(client, userdata, msg):
 
         except Exception as e:
 
-            print(e)
+            print(
+                f"INFO Fehler: {e}"
+            )
 
         return
 
@@ -175,20 +175,12 @@ def on_message(client, userdata, msg):
 
                     if temp >= on_temp:
 
-                        print(
-                            "KLIMA EIN"
-                        )
-
                         mqtt_publish_client.publish(
                             "device/pi3/ac",
                             "ON"
                         )
 
                     elif temp <= off_temp:
-
-                        print(
-                            "KLIMA AUS"
-                        )
 
                         mqtt_publish_client.publish(
                             "device/pi3/ac",
@@ -197,8 +189,9 @@ def on_message(client, userdata, msg):
 
         except Exception as e:
 
-            print(e)
-
+            print(
+                f"Klima Fehler: {e}"
+            )
     # ==========================
     # Temperatur speichern
     # ==========================
@@ -235,7 +228,9 @@ def on_message(client, userdata, msg):
 
         except Exception as e:
 
-            print(e)
+            print(
+                f"Datenbank Fehler: {e}"
+            )
 
 # ==========================
 # Offline Überwachung
@@ -259,7 +254,7 @@ def offline_monitor():
                 devices[device]["status"] = "offline"
 
         time.sleep(10)
-        
+
 # ==========================
 # MQTT Thread
 # ==========================
@@ -294,22 +289,25 @@ threading.Thread(
 ).start()
 
 # ==========================
-# API
+# API Geräte
 # ==========================
 
 @app.route("/api/devices")
 def api_devices():
 
-    return jsonify(devices)
-
+    return jsonify(
+        devices
+    )
 
 @app.route("/api/device/<device>")
 def api_device(device):
 
     return jsonify(
-        devices.get(device, {})
+        devices.get(
+            device,
+            {}
+        )
     )
-
 
 @app.route("/api/history/<device>")
 def api_history(device):
@@ -336,7 +334,6 @@ def api_history(device):
         }
         for row in rows
     ])
-
 # ==========================
 # Klima API
 # ==========================
@@ -494,6 +491,7 @@ canvas{
     border-radius:10px;
     max-height:220px;
 }
+# Menü
 
 #menu{
     position:fixed;
@@ -725,7 +723,6 @@ function selectDevice(device)
 
     updateDevice();
 }
-
 function updateDevice()
 {
     if(!currentDevice)
@@ -733,8 +730,7 @@ function updateDevice()
         return;
     }
 
-    const scrollPos =
-        window.scrollY;
+    const scrollPos = window.scrollY;
 
     fetch(
         "/api/device/" +
@@ -765,7 +761,8 @@ function updateDevice()
                 key === "name" ||
                 key === "status" ||
                 key === "sensors" ||
-                key === "humidity"
+                key === "humidity" ||
+                key === "last_seen"
             )
             {
                 continue;
@@ -775,14 +772,12 @@ function updateDevice()
 
             if(key === "temperature")
             {
-                displayName =
-                    "Temperatur";
+                displayName = "Temperatur";
             }
 
             if(key === "acstatus")
             {
-                displayName =
-                    "Klimaanlage";
+                displayName = "Klimaanlage";
             }
 
             html += `
@@ -878,43 +873,6 @@ function loadChart()
 
                         fill: true
                     }]
-                },
-
-                options:
-                {
-                    responsive: true,
-
-                    maintainAspectRatio:false,
-
-                    plugins:
-                    {
-                        legend:
-                        {
-                            labels:
-                            {
-                                color:"white"
-                            }
-                        }
-                    },
-
-                    scales:
-                    {
-                        x:
-                        {
-                            ticks:
-                            {
-                                color:"white"
-                            }
-                        },
-
-                        y:
-                        {
-                            ticks:
-                            {
-                                color:"white"
-                            }
-                        }
-                    }
                 }
             }
         );
@@ -1002,6 +960,7 @@ loadClimate();
 
 </html>
 """
+
 # ==========================
 # Flask Start
 # ==========================
