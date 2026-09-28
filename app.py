@@ -117,7 +117,7 @@ if sensor != "status":
         devices[device] = {
             "name": device,
             "status": "offline",
-            "sensors": []
+            "sensors": [],
             "last_seen": time.time()
         }
 
