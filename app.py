@@ -94,32 +94,22 @@ def on_message(client, userdata, msg):
     if len(parts) < 3:
         return
 
-    device = parts[1]
-    sensor = parts[2]
+  device = parts[1]
+  sensor = parts[2]
 
-    devices.setdefault(
-    device,
-    {
+  if device not in devices:
+
+      devices[device] = {
         "name": device,
         "status": "offline",
         "sensors": [],
         "last_seen": time.time()
     }
-)
 
-devices[device]["last_seen"] = time.time()
+ devices[device]["last_seen"] = time.time()
 
-if sensor != "status":
-    devices[device]["status"] = "online"
-    
-    if device not in devices:
-
-        devices[device] = {
-            "name": device,
-            "status": "offline",
-            "sensors": [],
-            "last_seen": time.time()
-        }
+ if sensor != "status":
+     devices[device]["status"] = "online"
 
     if sensor == "info":
 
