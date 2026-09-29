@@ -817,65 +817,95 @@ function updateDevice()
     });
 }
 
+let lastTime = null;
+const MAX_POINTS = 100;
+
 function loadChart()
 {
-    fetch(
-        "/api/history/" +
-        currentDevice
-    )
+    fetch("/api/history/" + currentDevice)
 
     .then(r => r.json())
 
     .then(data =>
     {
-        const labels =
-            data.map(
-                x => x.time.split(" ")[1]
-            );
-
-        const values =
-            data.map(
-                x => x.value
-            );
-
-        if(chart)
+        if(data.length === 0)
         {
-            chart.destroy();
+            return;
         }
 
-        chart =
-        new Chart(
-            document.getElementById(
-                "chart"
-            ),
-            {
-                type:"line",
-
-                data:
+        // Erster Aufruf: Graph einmal komplett aufbauen
+        if(!chart)
+        {
+            chart = new Chart(
+                document.getElementById("chart"),
                 {
-                    labels: labels,
+                    type: "line",
 
-                    datasets:
-                    [{
-                        label:
-                            "Temperatur °C",
+                    data:
+                    {
+                        labels: data.map(x => x.time),
 
-                        data:
-                            values,
+                        datasets:
+                        [{
+                            label: "Temperatur °C",
+                            data: data.map(x => x.value),
+                            borderColor: "#4CAF50",
+                            backgroundColor: "rgba(76,175,80,0.2)",
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
 
-                        borderColor:
-                            "#4CAF50",
-
-                        backgroundColor:
-                            "rgba(76,175,80,0.2)",
-
-                        tension: 0.4,
-
-                        fill: true
-                    }]
+                    options:
+                    {
+                        animation: { duration: 400 },
+                        scales:
+                        {
+                            x:
+                            {
+                                ticks:
+                                {
+                                    maxTicksLimit: 8,
+                                    maxRotation: 0
+                                }
+                            }
+                        }
+                    }
                 }
-            }
-        );
+            );
+
+            lastTime = data[data.length - 1].time;
+            return;
+        }
+
+        // Danach: nur neue Werte anhängen
+        let idx = data.findIndex(x => x.time === lastTime);
+
+        let newPoints =
+            idx === -1
+            ? data
+            : data.slice(idx + 1);
+
+        if(newPoints.length === 0)
+        {
+            return;
+        }
+
+        for(const p of newPoints)
+        {
+            chart.data.labels.push(p.time);
+            chart.data.datasets[0].data.push(p.value);
+        }
+
+        while(chart.data.labels.length > MAX_POINTS)
+        {
+            chart.data.labels.shift();
+            chart.data.datasets[0].data.shift();
+        }
+
+        lastTime = newPoints[newPoints.length - 1].time;
+
+        chart.update();
     });
 }
 
