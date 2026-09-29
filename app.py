@@ -430,7 +430,7 @@ def home():
 MQTT Smart Control V5
 </title>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/static/chart.js"></script>
 
 <style>
 
