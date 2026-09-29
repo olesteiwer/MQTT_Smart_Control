@@ -9,7 +9,7 @@ import time
 # ==========================
 
 DEVICE_ID = "pi2"
-BROKER = "172.20.10.7"
+BROKER = "10.10.1.22"
 
 # DHT11 an GPIO4
 dht = adafruit_dht.DHT11(board.D4)
