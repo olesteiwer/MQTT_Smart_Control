@@ -8,7 +8,7 @@ import json
 
 DEVICE_ID = "pi3"
 
-BROKER = "172.20.10.7"   # Pi1 IP anpassen
+BROKER = "10.10.1.22"   # Pi1 IP anpassen
 
 AC_LED_PIN = 17
 
